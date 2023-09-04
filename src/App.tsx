@@ -13,6 +13,10 @@ const App = () => {
     })
   }
 
+  const solveGrid = () => {
+    return undefined;
+  }
+
   const gridToString = () => {
     return grid.toString().replaceAll(",", "").replaceAll("0", ".");
   }
@@ -24,21 +28,26 @@ const App = () => {
   console.log(gridToString());
 
   return (
-    <div className='w-full h-full flex justify-center items-center flex-col'>
-      <div className='aspect-square max-w-full max-h-full  grid grid-cols-9 gap-4'>
+    <div className='w-full h-full flex flex-shrink justify-center items-center flex-col gap-4'>
+      <div className='aspect-square grid grid-cols-9 gap-2'>
         {
           grid.map((row, i) =>
             row.map((cell, j) =>
-              <div className='flex justify-center items-center aspect-square p-2 w-fit h-fit text-center' key={i + j}>
-                <input className='text-5xl w-full h-full text-center' type="number" value={cell} onChange={(e) => updateGrid(+e.target.value, i, j)} />
+              <div className='flex flex-shrink justify-center items-center relative bg-white' key={i + j}>
+                <input min={1} max={9} className='[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none w-full h-full text-6xl text-center' type="number" value={cell} onChange={(e) => updateGrid(+e.target.value, i, j)} />
               </div>
             )
           )
         }
       </div>
-      <button onClick={clearGrid}>
-        Clear
-      </button>
+      <div className='flex w-full h-fit justify-center items-center gap-4'>
+        <button onClick={clearGrid}>
+          Clear
+        </button>
+        <button onClick={solveGrid}>
+          Solve
+        </button>
+      </div>
     </div>
 
 
