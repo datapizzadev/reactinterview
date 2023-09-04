@@ -57,10 +57,10 @@ Ti consigliamo l'utilizzo di tailwind per lo styling, è tra le librerie permess
 Ecco uno screen di un form grezzo che può darti un'idea di partenza:
 
 Sudoku iniziale (vuoto):
-![Screenshot 2023-09-04 at 7.23.11 AM.png](..%2F..%2F..%2F..%2Fvar%2Ffolders%2F0j%2F4grdvcrs4p7c35z692ddyqt00000gn%2FT%2FTemporaryItems%2FNSIRD_screencaptureui_MzRaBE%2FScreenshot%202023-09-04%20at%207.23.11%20AM.png)
+![Screenshot 2023-09-04 at 7.36.26 AM.png](Screenshot%202023-09-04%20at%207.36.26%20AM.png)
 
 Sudoku dopo "Solve":
-![Screenshot 2023-09-04 at 7.32.48 AM.png](..%2F..%2F..%2F..%2Fvar%2Ffolders%2F0j%2F4grdvcrs4p7c35z692ddyqt00000gn%2FT%2FTemporaryItems%2FNSIRD_screencaptureui_uOzW89%2FScreenshot%202023-09-04%20at%207.32.48%20AM.png)
+![Screenshot 2023-09-04 at 7.36.15 AM.png](Screenshot%202023-09-04%20at%207.36.15%20AM.png)
 
 ## Testing
 
