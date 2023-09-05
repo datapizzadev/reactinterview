@@ -1,17 +1,26 @@
+import fetchProxy from "../../shared/fetchProxy";
+
 export const gridToString = (grid: string[][]) => {
   return grid.toString().replaceAll(",", "").replaceAll("0", ".");
 };
 
 export const stringToGrid = (gridString: string) => {
   const gridToRet = [];
-  const flatInNumber = gridString.split("");
+  const flatGrid = gridString.split("");
 
-  let start = 0;
-
-  while (start < flatInNumber.length) {
-    gridToRet.push(flatInNumber.slice(start, start + 9));
-    start += 9;
+  for (let i = 0; i < flatGrid.length; i += 9) {
+    gridToRet.push(flatGrid.slice(i, i + 9));
   }
 
   return gridToRet;
+};
+
+export const fetchGridSolution = (grid: string[][]) => {
+  return fetchProxy("http://0.0.0.0:5000/", {
+    method: "POST",
+    body: JSON.stringify({ sudoku: [gridToString(grid)] }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 };
