@@ -30,11 +30,17 @@ const Grid = () => {
     }
 
     const solveGrid = async () => {
-        const { data } = await solutionQuery.runFetch(null);
+        const { data, error } = await solutionQuery.runFetch(null);
 
-        console.log(data);
+        if (!data) {
+            // handle error case
+            console.log(error);
+            return;
+        }
 
-        const solutionString = data[0].solution;
+        console.log(data.data[0]);
+
+        const solutionString = data.data[0].solution;
         const solutionGrid = stringToGrid(solutionString)
         console.log("GRID SOLUTION", solutionGrid);
 

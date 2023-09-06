@@ -1,5 +1,3 @@
-import fetchProxy from "../../shared/fetchProxy";
-
 export const gridToString = (grid: string[][]) => {
   return grid.toString().replaceAll(",", "").replaceAll("0", ".");
 };
@@ -16,7 +14,7 @@ export const stringToGrid = (gridString: string) => {
 };
 
 export const fetchGridSolution = (grid: string[][]) => {
-  return fetchProxy("http://0.0.0.0:5000/", {
+  return fetch(import.meta.env.VITE_SUDOKU_API_URL, {
     method: "POST",
     body: JSON.stringify({ sudoku: [gridToString(grid)] }),
     headers: {

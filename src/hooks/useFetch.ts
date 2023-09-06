@@ -4,28 +4,37 @@ interface UseFetchProps {
   fetchFn(data: unknown): Promise<Response>;
 }
 
+type ResponseType<T> = {
+  data: T | null;
+  error: unknown;
+};
+
 const useFetch = <T>({ fetchFn }: UseFetchProps) => {
   const [status, setStatus] = useState<
     "idle" | "success" | "error" | "loading"
   >("idle");
-  const [error, setError] = useState(null);
 
-  const runFetch = async (data: unknown): Promise<T> => {
+  const runFetch = async (data: unknown): Promise<ResponseType<T>> => {
     setStatus("loading");
     return fetchFn(data)
-      .then((res) => {
+      .then(async (res) => {
         setStatus("success");
-        return res.json();
+        return {
+          data: await res.json(),
+          error: null,
+        };
       })
       .catch((err) => {
         setStatus("error");
-        setError(err);
+        return {
+          data: null,
+          error: err,
+        };
       });
   };
 
   return {
     status,
-    error,
     runFetch,
   };
 };
