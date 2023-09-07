@@ -1,5 +1,12 @@
 export const gridToString = (grid: string[][]) => {
-  return grid.toString().replaceAll(",", "").replaceAll("0", ".");
+  let gridStr = "";
+  grid.forEach((row) => {
+    row.forEach((cell) => {
+      if (cell === "") gridStr += ".";
+      else gridStr += cell;
+    });
+  });
+  return gridStr;
 };
 
 export const stringToGrid = (gridString: string) => {

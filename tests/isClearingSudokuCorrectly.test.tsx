@@ -24,7 +24,7 @@ test("Is solving sudoku correctly", async () => {
     expect(cells.length).toBe(81);
 
     for (let i = 0; i < 81; i++) {
-        expect(cells.item(i)?.value).toBe("0");
+        expect(cells.item(i)?.value).toBe("");
     }
 
 });

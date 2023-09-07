@@ -5,8 +5,8 @@ interface UseFetchProps {
 }
 
 type ResponseType<T> = {
-  data: T | null;
-  error: unknown;
+  resData: T | null;
+  error: Error | null;
 };
 
 const useFetch = <T>({ fetchFn }: UseFetchProps) => {
@@ -14,20 +14,28 @@ const useFetch = <T>({ fetchFn }: UseFetchProps) => {
     "idle" | "success" | "error" | "loading"
   >("idle");
 
+  const [resData, setResData] = useState<T | null>(null);
+  const [error, setError] = useState<Error | null>(null);
+
   const runFetch = async (data: unknown): Promise<ResponseType<T>> => {
     setStatus("loading");
     return fetchFn(data)
       .then(async (res) => {
         setStatus("success");
+        const resJson = await res.json();
+        setResData(resJson);
+        setError(null);
         return {
-          data: await res.json(),
+          resData: resJson,
           error: null,
         };
       })
       .catch((err) => {
         setStatus("error");
+        setResData(null);
+        setError(err);
         return {
-          data: null,
+          resData: null,
           error: err,
         };
       });
@@ -36,6 +44,8 @@ const useFetch = <T>({ fetchFn }: UseFetchProps) => {
   return {
     status,
     runFetch,
+    resData,
+    error,
   };
 };
 
