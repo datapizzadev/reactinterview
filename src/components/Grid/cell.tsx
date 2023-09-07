@@ -1,14 +1,25 @@
+import { useEffect, useState } from "react";
+import { ErrInfo } from "./utils";
+
 interface CellProps {
     value: string,
     onUpdate: ({ guess }: { guess: string }) => void
     row: number,
-    col: number
+    col: number,
+    errInfo: ErrInfo | null
 }
 
-const Cell = ({ value, onUpdate, row, col }: CellProps) => {
+const Cell = ({ value, onUpdate, row, col, errInfo }: CellProps) => {
+    const [shouldError, setShouldError] = useState(false);
+
+    useEffect(() => {
+        if (((errInfo && errInfo.where === "row" && errInfo.index === row) || (errInfo && errInfo.where === "col" && errInfo.index === col)) && errInfo.errValue === value) {
+            setShouldError(true);
+        } else setShouldError(false);
+    }, [col, row, value, errInfo])
 
     return (
-        <span className={`p-1 row:border-b-2 row:border-b-white ${row === 2 || row === 5 ? "border-b-2 border-b-neutral-700" : ""} ${col === 2 || col === 5 ? "border-r-2 border-r-neutral-700" : ""}`} data-col={col}>
+        <span className={`${shouldError ? "text-red-500" : ""} p-1 row:border-b-2 row:border-b-white ${row === 2 || row === 5 ? "border-b-2 border-b-neutral-700" : ""} ${col === 2 || col === 5 ? "border-r-2 border-r-neutral-700" : ""}`} data-col={col}>
             <input
                 min={0}
                 max={9}

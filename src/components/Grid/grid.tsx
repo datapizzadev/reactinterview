@@ -1,14 +1,26 @@
 import { FormEvent, useReducer } from "react";
-import { fetchGridSolution, stringToGrid } from "./utils";
+import { ErrInfo, fetchGridSolution, fromErrorToInfo, stringToGrid, GridError } from "./utils";
 import Cell from "./cell";
 import useFetch from "../../hooks/useFetch";
 import { SodokuApiResponse } from "../../types/responses";
 
 // TODO: 1. Handle response error
 
+type PrettyApiError = {
+    message: string,
+    info: ErrInfo,
+    type: "api"
+}
+
+type PrettyNetError = {
+    message: string,
+    info: string,
+    type: "network"
+}
+
 type GridState = {
     grid: string[][],
-    prettyError: string | null
+    prettyError: PrettyApiError | PrettyNetError | null
 }
 
 type GuessAction = {
@@ -20,13 +32,14 @@ type GuessAction = {
     },
 }
 
-type ClearAction = {
-    type: "clear_grid"
-}
+
+export type ClearAction = {
+    type: "clear_grid";
+};
 
 type ErrorAction = {
     type: "set_error",
-    error: string
+    error: GridError
 }
 
 type SetGridAction = {
@@ -39,7 +52,7 @@ type Action = GuessAction | ClearAction | SetGridAction | ErrorAction
 const createInitialState = () => {
     return {
         grid: Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => "")),
-        prettyError: null,
+        prettyError: null
     }
 }
 
@@ -66,9 +79,24 @@ const reducer = (state: GridState, action: Action) => {
             }
         }
         case "set_error": {
+            if (action.error.type === "api") {
+                const errInfo = fromErrorToInfo(action.error)
+                return {
+                    ...state,
+                    prettyError: {
+                        message: action.error.message,
+                        info: errInfo,
+                        type: action.error.type
+                    }
+                }
+            }
             return {
                 ...state,
-                prettyError: action.error
+                prettyError: {
+                    message: action.error.message,
+                    info: action.error.message,
+                    type: action.error.type
+                }
             }
         }
     }
@@ -110,13 +138,13 @@ const Grid = () => {
             // If resData is null then there probably was a network error
             console.log(error!.message);
 
-            dispatch({ type: "set_error", error: error!.message || error!.name })
+            dispatch({ type: "set_error", error: { type: "network", message: error?.message || error?.name || "Network error" } })
             return;
         }
 
         if (resData.data[0].status === "error") {
             // If resData status is error then the api sent back a custom error
-            dispatch({ type: "set_error", error: resData.data[0].message })
+            dispatch({ type: "set_error", error: { type: "api", message: resData.data[0].message } })
             return;
         }
 
@@ -131,11 +159,23 @@ const Grid = () => {
 
     return (
         <form onSubmit={submitGrid} className="w-full h-full flex justify-center items-center flex-col gap-4">
+            <div className="min-h-[150px]">
+                {
+                    state.prettyError ? <div className="bg-red-500 flex flex-col gap-2 w-fit p-6 rounded-md items-start">
+                        <h1 className="text-red-950 lg:text-4xl  md:text-3xl sm:text-2xl">
+                            Ooops :(
+                        </h1>
+                        <h2 className="lg:text-2xl  md:text-xl sm:text-l">
+                            {state.prettyError.message}
+                        </h2>
+                    </div> : null
+                }
+            </div>
             <div className='min-h-0 w-full max-w-screen-sm aspect-square grid grid-cols-9'>
                 {
                     state.grid.map((row, i) =>
                         row.map((cell, j) =>
-                            <Cell row={i} col={j} key={i + j} value={cell} onUpdate={({ guess }) => guessCell(guess, i, j)} />
+                            <Cell errInfo={state.prettyError && state.prettyError.type === "api" ? state.prettyError.info : null} row={i} col={j} key={i + j} value={cell} onUpdate={({ guess }) => guessCell(guess, i, j)} />
                         )
                     )
                 }
@@ -149,17 +189,10 @@ const Grid = () => {
                     Solve
                 </button>
             </div>
+
+
         </form>
-        // {
-        //     state.prettyError ? <div className="bg-red-500 flex flex-col gap-2 w-fit px-6 rounded-md items-start">
-        //         <h1 className="text-red-950">
-        //             Error
-        //         </h1>
-        //         <h2>
-        //             {state.prettyError}
-        //         </h2>
-        //     </div> : null
-        // }
+
     )
 }
 

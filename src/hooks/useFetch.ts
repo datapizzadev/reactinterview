@@ -22,6 +22,8 @@ const useFetch = <T>({ fetchFn }: UseFetchProps) => {
     return fetchFn(data)
       .then(async (res) => {
         setStatus("success");
+        console.log(res);
+
         const resJson = await res.json();
         setResData(resJson);
         setError(null);

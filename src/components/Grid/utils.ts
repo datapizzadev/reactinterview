@@ -20,6 +20,37 @@ export const stringToGrid = (gridString: string) => {
   return gridToRet;
 };
 
+export type ErrInfo = {
+  errValue: string;
+  where: "row" | "col";
+  index: number;
+};
+
+export type NetworkError = {
+  type: "network";
+  message: string;
+};
+
+export type ApiError = {
+  type: "api";
+  message: string;
+};
+
+export type GridError = NetworkError | ApiError;
+
+export const fromErrorToInfo = (error: ApiError): ErrInfo => {
+  const values = error.message.split(" ");
+  const number = values[0];
+  const colRow = values[4];
+  const colRowIndx = values[5];
+
+  return {
+    errValue: number,
+    where: colRow as "row" | "col",
+    index: +colRowIndx - 1,
+  };
+};
+
 export const fetchGridSolution = (grid: string[][]) => {
   return fetch(import.meta.env.VITE_SUDOKU_API_URL, {
     method: "POST",
