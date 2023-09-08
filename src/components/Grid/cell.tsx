@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { ErrInfo } from "./utils";
+import { ErrInfo } from "./types";
+
 
 interface CellProps {
     value: string,

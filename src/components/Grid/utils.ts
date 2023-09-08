@@ -1,3 +1,5 @@
+import { ApiError, ErrInfo } from "./types";
+
 export const gridToString = (grid: string[][]) => {
   let gridStr = "";
   grid.forEach((row) => {
@@ -19,24 +21,6 @@ export const stringToGrid = (gridString: string) => {
 
   return gridToRet;
 };
-
-export type ErrInfo = {
-  errValue: string;
-  where: "row" | "col";
-  index: number;
-};
-
-export type NetworkError = {
-  type: "network";
-  message: string;
-};
-
-export type ApiError = {
-  type: "api";
-  message: string;
-};
-
-export type GridError = NetworkError | ApiError;
 
 export const fromErrorToInfo = (error: ApiError): ErrInfo => {
   const values = error.message.split(" ");

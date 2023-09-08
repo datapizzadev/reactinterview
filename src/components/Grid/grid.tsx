@@ -1,49 +1,11 @@
 import { FormEvent, useReducer } from "react";
-import { ErrInfo, fetchGridSolution, fromErrorToInfo, stringToGrid, GridError } from "./utils";
+import { fetchGridSolution, fromErrorToInfo, stringToGrid } from "./utils";
 import Cell from "./cell";
 import useFetch from "../../hooks/useFetch";
 import { SodokuApiResponse } from "../../types/responses";
-
-type PrettyApiError = {
-    message: string,
-    info: ErrInfo,
-    type: "api"
-}
-
-type PrettyNetError = {
-    message: string,
-    info: string,
-    type: "network"
-}
-
-type GridState = {
-    grid: string[][],
-    prettyError: PrettyApiError | PrettyNetError | null
-}
-
-type GuessAction = {
-    type: "guess_cell"
-    guess: {
-        value: string,
-        rowIndex: number,
-        colIndex: number
-    },
-}
+import { GuessAction, ClearAction, SetGridAction, ErrorAction, GridState } from "./types";
 
 
-export type ClearAction = {
-    type: "clear_grid";
-};
-
-type ErrorAction = {
-    type: "set_error",
-    error: GridError
-}
-
-type SetGridAction = {
-    type: "set_grid",
-    grid: string[][]
-}
 
 type Action = GuessAction | ClearAction | SetGridAction | ErrorAction
 
