@@ -59,7 +59,7 @@ test("Is solving sudoku correctly", async () => {
 
   // Expecting grid to reflect input changes
   puzzle.split("").forEach((v, i) => {
-    fireEvent.change(cells.item(i)!, { target: { value: v === "." ? "0" : v } });
+    fireEvent.keyDown(cells.item(i)!, { key: v === "." ? "" : v });
     expect(cells.item(i)!.value).toBe(v === "." ? "" : v);
   });
 

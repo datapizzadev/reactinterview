@@ -4,8 +4,6 @@ import Cell from "./cell";
 import useFetch from "../../hooks/useFetch";
 import { SodokuApiResponse } from "../../types/responses";
 
-// TODO: 1. Handle response error
-
 type PrettyApiError = {
     message: string,
     info: ErrInfo,
@@ -59,9 +57,12 @@ const createInitialState = () => {
 const reducer = (state: GridState, action: Action) => {
     switch (action.type) {
         case "guess_cell": {
+            // Check if input value is allowed
             if (!["1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(action.guess.value)) {
                 return state;
             }
+
+            // Update grid cell
             const g = [...state.grid];
             g[action.guess.rowIndex][action.guess.colIndex] = action.guess.value;
             return {
@@ -168,7 +169,7 @@ const Grid = () => {
                 <span className="text-purple-600">U</span>
             </h1>
             {
-                state.prettyError ? <div className="z-10 absolute top-0 left-0 bg-[#ff0000] outline outline-2 -rotate-6 outline-black shadow-[8px_8px_0px_0px_rgba(0,0,0)] flex flex-col gap-2 w-fit p-6 items-start">
+                state.prettyError ? <div className="z-10 absolute top-0 left-0 bg-poppy outline outline-2 -rotate-6 outline-black shadow-card flex flex-col gap-2 w-fit p-6 items-start">
                     <h1 className="text-black lg:text-2xl  md:text-xl sm:text-lg text-lg">
                         OOOPS :(
                     </h1>
@@ -193,7 +194,7 @@ const Grid = () => {
                 <button className="border-0 px-10 py-2 text-black bg-transparent rounded-none outline outline-transparent hover:bg-white hover:border-0 hover:outline-black" type="button" onClick={clearGrid} disabled={solutionQuery.status === "loading"}>
                     CLEAR
                 </button>
-                <button className="hover:bg-[#f4ea05] border-0 px-10 py-2 text-black bg-[#fbff00] rounded-none outline shadow-[6px_6px_0px_0px_rgba(0,0,0)]  outline-black" type="submit" disabled={solutionQuery.status === "loading"}>
+                <button className="hover:bg-flash-darken border-0 px-10 py-2 text-black bg-flash-normal rounded-none outline shadow-button  outline-black" type="submit" disabled={solutionQuery.status === "loading"}>
                     SOLVE
                 </button>
             </div>

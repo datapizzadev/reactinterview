@@ -10,9 +10,9 @@ test("Is solving sudoku correctly", async () => {
     const cells = container.getElementsByTagName("input");
 
     // Set some values in the grid
-    fireEvent.change(cells.item(2)!, { target: { value: "5" } })
-    fireEvent.change(cells.item(10)!, { target: { value: "1" } })
-    fireEvent.change(cells.item(80)!, { target: { value: "9" } })
+    fireEvent.keyDown(cells.item(2)!, { key: "5" })
+    fireEvent.keyDown(cells.item(10)!, { key: "1" })
+    fireEvent.keyDown(cells.item(80)!, { key: "9" })
 
     expect(cells.item(2)?.value).toBe("5")
     expect(cells.item(10)?.value).toBe("1")

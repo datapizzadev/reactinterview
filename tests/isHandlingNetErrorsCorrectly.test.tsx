@@ -38,7 +38,7 @@ test("Is handling network errors correctly", async () => {
     await userEvent.click(screen.getByText('SOLVE'));
 
     // Expect visual changes
-    const errDisplay = screen.getByText("OOOPS :/")
+    const errDisplay = screen.getByText("OOOPS :(")
 
     expect(errDisplay).toBeVisible();
 
