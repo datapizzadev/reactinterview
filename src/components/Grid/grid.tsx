@@ -158,20 +158,18 @@ const Grid = () => {
     }
 
     return (
-        <form onSubmit={submitGrid} className="w-full h-full flex justify-center items-center flex-col gap-4">
-            <div className="min-h-[150px]">
-                {
-                    state.prettyError ? <div className="bg-red-500 flex flex-col gap-2 w-fit p-6 rounded-md items-start">
-                        <h1 className="text-red-950 lg:text-4xl  md:text-3xl sm:text-2xl">
-                            Ooops :(
-                        </h1>
-                        <h2 className="lg:text-2xl  md:text-xl sm:text-l">
-                            {state.prettyError.message}
-                        </h2>
-                    </div> : null
-                }
-            </div>
-            <div className='min-h-0 w-full max-w-screen-sm aspect-square grid grid-cols-9'>
+        <form onSubmit={submitGrid} className="relative w-full h-full flex justify-center items-center flex-col gap-4">
+            {
+                state.prettyError ? <div className="z-10 absolute top-0 left-0 bg-[#ff0000] outline outline-2 -rotate-6 outline-black shadow-[8px_8px_0px_0px_rgba(0,0,0)] flex flex-col gap-2 w-fit p-6 items-start">
+                    <h1 className="text-black lg:text-4xl  md:text-3xl sm:text-2xl">
+                        OOOPS :/
+                    </h1>
+                    <h2 className="text-black lg:text-2xl  md:text-xl sm:text-l">
+                        {state.prettyError.message.toUpperCase()}
+                    </h2>
+                </div> : null
+            }
+            <div className='max-w-screen-lg max-h-full aspect-square grid grid-cols-9'>
                 {
                     state.grid.map((row, i) =>
                         row.map((cell, j) =>

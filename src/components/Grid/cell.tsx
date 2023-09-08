@@ -19,11 +19,11 @@ const Cell = ({ value, onUpdate, row, col, errInfo }: CellProps) => {
     }, [col, row, value, errInfo])
 
     return (
-        <span className={`${shouldError ? "text-red-500" : ""} p-1 row:border-b-2 row:border-b-white ${row === 2 || row === 5 ? "border-b-2 border-b-neutral-700" : ""} ${col === 2 || col === 5 ? "border-r-2 border-r-neutral-700" : ""}`} data-col={col}>
+        <span className={`p-2 ${row === 2 || row === 5 ? "border-b-2 border-b-[#00ffd7]" : ""} ${col === 2 || col === 5 ? "border-r-2 border-r-[#00ffd7]" : ""} `} data-col={col}>
             <input
                 min={0}
                 max={9}
-                className='cursor-pointer [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none text-center lg:text-5xl  md:text-3xl sm:text-xl bg-neutral-900 rounded-md focus-visible:outline-3 caret-transparent focus-visible:outline-yellow-500 focus-visible:bg-neutral-700 w-full h-full'
+                className={`${row + col % 2 !== 0 ? "rotate-1" : -"rotate-1"} text-white shadow-[4px_4px_0px_0px_#000000] focus-visible:shadow-none duration-150 ease-out outline outline-2 outline-black  cursor-pointer [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none text-center lg:text-4xl  md:text-3xl sm:text-2xl bg-transparent  focus-visible:outline-3 caret-transparent focus-visible:outline-yellow-500  focus-visible:outline-2  focus-visible:text-white focus-visible:scale-125 w-full h-full ${shouldError ? "!bg-[#ff0000]" : ""} `}
                 type="number"
                 value={value}
                 onChange={(e) => onUpdate({ guess: e.target.value[e.target.value.length - 1] })} />
