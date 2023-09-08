@@ -158,13 +158,21 @@ const Grid = () => {
     }
 
     return (
-        <form onSubmit={submitGrid} className="relative w-full h-full flex justify-center items-center flex-col gap-4">
+        <form onSubmit={submitGrid} className="relative w-full h-full flex justify-center items-center flex-col gap-6">
+            <h1 className="[-webkit-text-stroke-width:2px] [-webkit-text-stroke-color:black]">
+                <span className="text-red-600">S</span>
+                <span className="text-orange-600">U</span>
+                <span className="text-yellow-600">D</span>
+                <span className="text-green-600">O</span>
+                <span className="text-blue-500">K</span>
+                <span className="text-purple-600">U</span>
+            </h1>
             {
                 state.prettyError ? <div className="z-10 absolute top-0 left-0 bg-[#ff0000] outline outline-2 -rotate-6 outline-black shadow-[8px_8px_0px_0px_rgba(0,0,0)] flex flex-col gap-2 w-fit p-6 items-start">
-                    <h1 className="text-black lg:text-4xl  md:text-3xl sm:text-2xl">
-                        OOOPS :/
+                    <h1 className="text-black lg:text-2xl  md:text-xl sm:text-lg text-lg">
+                        OOOPS :(
                     </h1>
-                    <h2 className="text-black lg:text-2xl  md:text-xl sm:text-l">
+                    <h2 className="text-black lg:text-xl  md:text-l sm:text-sm break-before-all text-sm">
                         {state.prettyError.message.toUpperCase()}
                     </h2>
                 </div> : null
@@ -173,18 +181,20 @@ const Grid = () => {
                 {
                     state.grid.map((row, i) =>
                         row.map((cell, j) =>
-                            <Cell errInfo={state.prettyError && state.prettyError.type === "api" ? state.prettyError.info : null} row={i} col={j} key={i + j} value={cell} onUpdate={({ guess }) => guessCell(guess, i, j)} />
+                            <Cell errInfo={state.prettyError && state.prettyError.type === "api" ? state.prettyError.info : null}
+                                row={i} col={j} key={i + j} value={cell}
+                                onUpdate={({ guess }) => guessCell(guess, i, j)} />
                         )
                     )
                 }
             </div>
 
-            <div className='flex w-full h-fit justify-center items-center gap-4'>
-                <button type="button" onClick={clearGrid} disabled={solutionQuery.status === "loading"}>
-                    Clear
+            <div className=' flex w-full h-fit justify-center items-center gap-4'>
+                <button className="border-0 px-10 py-2 text-black bg-transparent rounded-none outline outline-transparent hover:bg-white hover:border-0 hover:outline-black" type="button" onClick={clearGrid} disabled={solutionQuery.status === "loading"}>
+                    CLEAR
                 </button>
-                <button type="submit" disabled={solutionQuery.status === "loading"}>
-                    Solve
+                <button className="hover:bg-[#f4ea05] border-0 px-10 py-2 text-black bg-[#fbff00] rounded-none outline shadow-[6px_6px_0px_0px_rgba(0,0,0)]  outline-black" type="submit" disabled={solutionQuery.status === "loading"}>
+                    SOLVE
                 </button>
             </div>
 

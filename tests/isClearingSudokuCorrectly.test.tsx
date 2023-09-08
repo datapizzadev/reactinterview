@@ -19,7 +19,7 @@ test("Is solving sudoku correctly", async () => {
     expect(cells.item(80)?.value).toBe("9")
 
     // Expect the grid to be in the initial state after pressing the clear button
-    await userEvent.click(screen.getByText('Clear'))
+    await userEvent.click(screen.getByText('CLEAR'))
 
     expect(cells.length).toBe(81);
 

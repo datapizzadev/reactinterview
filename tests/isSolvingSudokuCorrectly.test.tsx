@@ -63,7 +63,8 @@ test("Is solving sudoku correctly", async () => {
     expect(cells.item(i)!.value).toBe(v === "." ? "" : v);
   });
 
-  await userEvent.click(screen.getByText('Solve'));
+  const solveBtn = screen.getByText('SOLVE');
+  await userEvent.click(solveBtn);
 
   // Expecting grid to recieve and set solution correctly
   solution.split("").forEach((v, i) => {

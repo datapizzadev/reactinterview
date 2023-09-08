@@ -49,13 +49,19 @@ test("Is handling api errors correctly", async () => {
     const { container } = render(<Grid />);
     const cells = container.getElementsByTagName("input");
 
-    fireEvent.change(cells.item(0)!, { target: { value: "2" } });
-    fireEvent.change(cells.item(1)!, { target: { value: "2" } });
+    const r1c1 = cells.item(0)!;
+    const r1c2 = cells.item(1)!;
 
-    await userEvent.click(screen.getByText('Solve'));
+    fireEvent.change(r1c1, { target: { value: "2" } });
+    fireEvent.change(r1c2, { target: { value: "2" } });
+
+    await userEvent.click(screen.getByText('SOLVE'));
 
     // Expect visual changes
+    expect(r1c1).toHaveClass("!bg-[#ff0000]")
+    expect(r1c2).toHaveClass("!bg-[#ff0000]")
+    const errDisplay = screen.getByText('2 APPEARS 2X IN ROW 1')
 
-
+    expect(errDisplay).toBeVisible();
 });
 

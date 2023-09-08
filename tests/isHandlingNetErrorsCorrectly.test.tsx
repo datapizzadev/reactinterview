@@ -33,12 +33,14 @@ afterEach(() => {
 
 test("Is handling network errors correctly", async () => {
     // Arrange
-    const { container } = render(<Grid />);
+    render(<Grid />);
 
-    await userEvent.click(screen.getByText('Solve'));
+    await userEvent.click(screen.getByText('SOLVE'));
 
     // Expect visual changes
+    const errDisplay = screen.getByText("OOOPS :/")
 
+    expect(errDisplay).toBeVisible();
 
 });
 
