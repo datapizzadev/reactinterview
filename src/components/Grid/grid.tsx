@@ -70,7 +70,7 @@ const Grid = () => {
     const [state, dispatch] = useReducer(reducer, null, createInitialState)
 
     const solutionQuery = useFetch<SodokuApiResponse>({
-        fetchFn: async () => fetchGridSolution(state.grid)
+        fetchFn: () => fetchGridSolution(state.grid)
     })
 
     const guessCell = (guess: string, rowIndex: number, colIndex: number) => {

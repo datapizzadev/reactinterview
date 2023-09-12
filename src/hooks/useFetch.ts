@@ -23,6 +23,7 @@ const useFetch = <T>({ fetchFn }: UseFetchProps) => {
       .then(async (res) => {
         setStatus("success");
         console.log(res);
+        if (!res.ok) throw new Error("Error while finding solution");
 
         const resJson = await res.json();
         setResData(resJson);
